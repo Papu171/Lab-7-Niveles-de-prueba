@@ -24,6 +24,13 @@ class Library:
         book.borrow()
         user.register_borrow(book)
 
+    def safe_borrow_book(self, user_id, isbn):
+        try:
+            self.borrow_book(user_id, isbn)
+            return "Loan successful"
+        except ValueError as e:
+            return f"Error: {e}"
+
     def return_book(self, user_id, isbn):
         user = self._find_user(user_id)
         book = self._find_book(isbn)
@@ -34,7 +41,6 @@ class Library:
     def _find_user(self, user_id):
         for u in self.users:
             if u.user_id == user_id:
-                print("User not found")
                 return u
         raise ValueError("User not found")
 
